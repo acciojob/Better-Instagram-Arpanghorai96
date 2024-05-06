@@ -1,26 +1,29 @@
-//your code here
-const divs=document.querySelectorAll(".image");
+const images = document.querySelectorAll(".image");
 
-let dragableItem=null;
-function ondragStart(event){
-    dragableItem=event.target;
-}
-function ondragOver(event)
-{
-    event.preventDefault();
-}
-function onDrop(event){
-    event.preventDefault();
-    // Get the image of the target item
-    let targetImage = event.target.style.backgroundImage;
-    
-    // Swap the images of the dragged and target items
-    event.target.style.backgroundImage = dragableItem.style.backgroundImage;
-    dragableItem.style.backgroundImage = targetImage;
-}
+let dragItem = null;
 
-divs.forEach((div) => {
-    div.addEventListener("dragstart", ondragStart);
-    div.addEventListener("dragover", ondragOver);
-    div.addEventListener("drop", onDrop);
+images.forEach(image => {
+    image.addEventListener("dragstart", dragStart);
+    image.addEventListener("dragover", dragOver);
+    image.addEventListener("drop", drop);
 });
+
+function dragStart(event) {
+    dragItem =event.target;
+}
+
+function dragOver(event) {
+    event.preventDefault();
+}
+
+function drop(event) {
+    event.preventDefault();
+    const target = event.target;
+
+    if (dragItem !== target) {
+        // Swap the HTML content of the dragItem and the target
+        const tempHTML = dragItem.innerHTML;
+        dragItem.innerHTML = target.innerHTML;
+        target.innerHTML = tempHTML;
+    }
+}
